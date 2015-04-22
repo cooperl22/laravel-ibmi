@@ -1,0 +1,29 @@
+{
+    "name": "cooperl/laravel-ibmi",
+    "description": "laravel-ibmi is a simple DB2 & Toolkit for IBMi service provider for Laravel. It provides DB2 Connection by extending the Illuminate Database component of the laravel framework. Plus it also provides Toolkit for IBMi so that you can access IBMi resources with same credentials.",
+    "keywords": ["laravel", "IBMi", "DB2", "AS400", "Database", "PDO", "ODBC", "ToolkitAPI"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maxime Rault",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "cooperl/ibmi-toolkit": "~1.0",
+        "cooperl/laravel-db2": "~1.0"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Cooperl\\IBMi\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
