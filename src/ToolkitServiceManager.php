@@ -61,19 +61,22 @@ class ToolkitServiceManager
         $config = $this->getConfig($name);
 
         $transportType = '';
+        $dsn = '';
         switch ($config['driver']) {
             case 'odbc':
                 $transportType = 'odbc';
+                $dsn = $this->getDsn($config);
                 break;
             case 'ibm':
                 $transportType = 'ibm_db2';
+                $dsn = $config["database"];
                 break;
             default:
                 break;
         }
         $isPersistent = !array_key_exists(\PDO::ATTR_PERSISTENT, $config["options"]) ?: $config["options"][\PDO::ATTR_PERSISTENT];
 
-        return ToolkitService::getInstance($config["database"], $config["username"], $config["password"], $transportType, $isPersistent);      
+        return ToolkitService::getInstance($dsn, $config["username"], $config["password"], $transportType, $isPersistent);
     }
 
     /**
@@ -99,6 +102,76 @@ class ToolkitServiceManager
         }
 
         return $config;
+    }
+
+    protected function getDsn(array $config) {
+        extract($config);
+
+        $dsn = // General settings
+               "DRIVER={iSeries Access ODBC Driver};"
+             . "SYSTEM=$host;"
+             . "UserID=$username;"
+             . "Password=$password;"
+             //Server settings
+             . "DATABASE=$database;"
+             . "SIGNON=$signon;"
+             . "SSL=$ssl;"
+             . "CommitMode=$commitMode;"
+             . "ConnectionType=$connectionType;"
+             . "DefaultLibraries=$defaultLibraries;"
+             . "Naming=$naming;"
+             . "UNICODESQL=$unicodeSql;"
+             // Format settings
+             . "DateFormat=$dateFormat;"
+             . "DateSeperator=$dateSeperator;"
+             . "Decimal=$decimal;"
+             . "TimeFormat=$timeFormat;"
+             . "TimeSeparator=$timeSeparator;"
+             // Performances settings
+             . "BLOCKFETCH=$blockFetch;"
+             . "BlockSizeKB=$blockSizeKB;"
+             . "AllowDataCompression=$allowDataCompression;"
+             . "CONCURRENCY=$concurrency;"
+             . "LAZYCLOSE=$lazyClose;"
+             . "MaxFieldLength=$maxFieldLength;"
+             . "PREFETCH=$prefetch;"
+             . "QUERYTIMEOUT=$queryTimeout;"
+             // Modules settings
+             . "DefaultPkgLibrary=$defaultPkgLibrary;"
+             . "DefaultPackage=$defaultPackage;"
+             . "ExtendedDynamic=$extendedDynamic;"
+             // Diagnostic settings
+             . "QAQQINILibrary=$QAQQINILibrary;"
+             . "SQDIAGCODE=$sqDiagCode;"
+             // Sort settings
+             . "LANGUAGEID=$languageId;"
+             . "SORTTABLE=$sortTable;"
+             . "SortSequence=$sortSequence;"
+             . "SORTWEIGHT=$sortWeight;"
+             // Conversion settings
+             . "AllowUnsupportedChar=$allowUnsupportedChar;"
+             . "CCSID=$ccsid;"
+             . "GRAPHIC=$graphic;"
+             . "ForceTranslation=$forceTranslation;"
+             // Other settings
+             . "ALLOWPROCCALLS=$allowProcCalls;"
+             . "DB2SQLSTATES=$DB2SqlStates;"
+             . "DEBUG=$debug;"
+             . "TRUEAUTOCOMMIT=$trueAutoCommit;"
+             . "CATALOGOPTIONS=$catalogOptions;"
+             . "LibraryView=$libraryView;"
+             . "ODBCRemarks=$ODBCRemarks;"
+             . "SEARCHPATTERN=$searchPattern;"
+             . "TranslationDLL=$translationDLL;"
+             . "TranslationOption=$translationOption;"
+             . "MAXTRACESIZE=$maxTraceSize;"
+             . "MultipleTraceFiles=$multipleTraceFiles;"
+             . "TRACE=$trace;"
+             . "TRACEFILENAME=$traceFilename;"
+             . "ExtendedColInfo=$extendedColInfo;"
+             ;
+
+        return $dsn;
     }
 
     /**
