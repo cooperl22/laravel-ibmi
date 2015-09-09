@@ -61,22 +61,57 @@ class ToolkitServiceManager
         $config = $this->getConfig($name);
 
         $transportType = '';
-        $dsn = '';
+        $database = $config["database"];
+        $username = $config["username"];
+        $password = $config["password"];
+        $isPersistent = !array_key_exists(\PDO::ATTR_PERSISTENT, $config["options"]) ?: $config["options"][\PDO::ATTR_PERSISTENT];
+
         switch ($config['driver']) {
             case 'odbc':
                 $transportType = 'odbc';
                 $dsn = $this->getDsn($config);
+                if ($isPersistent)
+                {
+                    $conn = odbc_pconnect($dsn, $username,$password);
+                }
+                else
+                {
+                    $conn = odbc_connect($dsn, $username,$password);
+                }
                 break;
             case 'ibm':
                 $transportType = 'ibm_db2';
-                $dsn = $config["database"];
+                if ($isPersistent)
+                {
+                    $conn = db2_pconnect($database, $username,$password);
+                }
+                else
+                {
+                    $conn = db2_connect($database, $username,$password);
+                }
                 break;
             default:
                 break;
         }
-        $isPersistent = !array_key_exists(\PDO::ATTR_PERSISTENT, $config["options"]) ?: $config["options"][\PDO::ATTR_PERSISTENT];
 
-        return ToolkitService::getInstance($dsn, $config["username"], $config["password"], $transportType, $isPersistent);
+        if (!$conn)
+        {
+            \Log::error("Bad connect: $conn,$database,$username,perm=$isPersistent");
+            throw new Exception("Bad connect: $conn,$database,$username,perm=$isPersistent");
+        }
+        else
+        {
+            try {
+                $ToolkitServiceObj = ToolkitService::getInstance($conn, false, null, $transportType);
+            }
+            catch (Exception $e) {
+                \Log::error($e->getMessage());
+                throw new Exception($e->getMessage());
+            }
+            $ToolkitServiceObj->setOptions($config["toolkit"]);
+
+            return $ToolkitServiceObj;
+        }
     }
 
     /**
@@ -209,5 +244,5 @@ class ToolkitServiceManager
     {
         return call_user_func_array([$this->connection(), $method], $parameters);
     }
-    
+
 }
