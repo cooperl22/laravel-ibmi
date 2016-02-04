@@ -31,12 +31,12 @@ class IBMiServiceProvider extends ServiceProvider {
     {
         // The toolkit manager is used to resolve various connections, since multiple
         // connections might be managed.
-        $this->app->bindShared('ts', function($app)
+        $this->app->singleton('ts', function($app)
         {
             return new ToolkitServiceManager($app);
         });
 
-        AliasLoader::getInstance()->alias('TS', 'Cooperl\IBMi\Facades\ToolkitService');
+        AliasLoader::getInstance()->alias('TS', Facades\ToolkitService::class);
     }
 
     /**
