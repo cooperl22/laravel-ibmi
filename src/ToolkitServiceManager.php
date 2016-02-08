@@ -142,9 +142,6 @@ class ToolkitServiceManager
     protected function getDsn(array $config) {
         extract($config);
 
-        // CCSID to 0 (Issues with XML flux)
-        // $ccsid = 0;
-
         $dsn = // General settings
                "DRIVER={iSeries Access ODBC Driver};"
              . "SYSTEM=$host;"
