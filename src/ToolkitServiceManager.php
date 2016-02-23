@@ -185,7 +185,7 @@ class ToolkitServiceManager
              . "SORTWEIGHT=$sortWeight;"
              // Conversion settings
              . "AllowUnsupportedChar=$allowUnsupportedChar;"
-             . "CCSID=$ccsid;"
+             //. "CCSID=$ccsid;"
              . "GRAPHIC=$graphic;"
              . "ForceTranslation=$forceTranslation;"
              // Other settings
