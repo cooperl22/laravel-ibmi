@@ -66,7 +66,7 @@ class ToolkitServiceManager
         $password = $config["password"];
         $isPersistent = !array_key_exists(\PDO::ATTR_PERSISTENT, $config["options"]) ?: $config["options"][\PDO::ATTR_PERSISTENT];
 
-        switch ($config['type']) {
+        switch ($config['driver']) {
             case 'odbc':
                 $transportType = 'odbc';
                 $database = $this->getDsn($config);
