@@ -66,52 +66,22 @@ class ToolkitServiceManager
         $password = $config["password"];
         $isPersistent = !array_key_exists(\PDO::ATTR_PERSISTENT, $config["options"]) ?: $config["options"][\PDO::ATTR_PERSISTENT];
 
-        switch ($config['driver']) {
+        switch ($config['type']) {
             case 'odbc':
                 $transportType = 'odbc';
-                $dsn = $this->getDsn($config);
-                if ($isPersistent)
-                {
-                    $conn = odbc_pconnect($dsn, $username,$password);
-                }
-                else
-                {
-                    $conn = odbc_connect($dsn, $username,$password);
-                }
+                $database = $this->getDsn($config);
                 break;
             case 'ibm':
                 $transportType = 'ibm_db2';
-                if ($isPersistent)
-                {
-                    $conn = db2_pconnect($database, $username,$password);
-                }
-                else
-                {
-                    $conn = db2_connect($database, $username,$password);
-                }
                 break;
             default:
                 break;
         }
 
-        if (!$conn)
-        {
-            \Log::error("Bad connect: $conn,$database,$username,perm=$isPersistent");
-            throw new Exception("Bad connect: $conn,$database,$username,perm=$isPersistent");
-        }
-        else
-        {
-            try {
-                $ToolkitServiceObj = ToolkitService::getInstance($conn, false, null, $transportType);
-            }
-            catch (Exception $e) {
-                \Log::error($e->getMessage());
-                throw new Exception($e->getMessage());
-            }
-            $ToolkitServiceObj->setOptions($config["toolkit"]);
+        $toolKit = new \ToolkitApi\Toolkit($database, $username, $password, $transportType, $isPersistent);
+        $toolKit->setOptions($config["toolkit"]);
 
-            return $ToolkitServiceObj;
-        }
+        return $toolKit;
     }
 
     /**
@@ -143,7 +113,7 @@ class ToolkitServiceManager
         extract($config);
 
         $dsn = // General settings
-               "DRIVER={iSeries Access ODBC Driver};"
+               "DRIVER=$name;"
              . "SYSTEM=$host;"
              . "UserID=$username;"
              . "Password=$password;"

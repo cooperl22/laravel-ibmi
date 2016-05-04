@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "cooperl/ibmi-toolkit": "~1.0",
+        "zendtech/IbmiToolkit": "^1.7.0",
         "cooperl/laravel-db2": "~2.0"
     },
     "require-dev": {
