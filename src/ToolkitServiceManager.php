@@ -113,7 +113,7 @@ class ToolkitServiceManager
         extract($config);
 
         $dsn = // General settings
-               "DRIVER=$name;"
+               "DRIVER=$driverName;"
              . "SYSTEM=$host;"
              . "UserID=$username;"
              . "Password=$password;"
