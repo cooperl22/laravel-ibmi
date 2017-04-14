@@ -20,9 +20,16 @@ Plus it also provides Toolkit for IBMi so that you can access IBMi resources wit
 
 Add laravel-ibmi to your composer.json file:
 
+Laravel <= 5.2
 ```
 "require": {
     "cooperl/laravel-ibmi": "~2.0"
+}
+```
+Laravel >= 5.3
+```
+"require": {
+    "cooperl/laravel-ibmi": "~5.0"
 }
 ```
 
