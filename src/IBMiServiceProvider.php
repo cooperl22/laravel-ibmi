@@ -2,7 +2,6 @@
 namespace Cooperl\IBMi;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 
 class IBMiServiceProvider extends ServiceProvider {
 
@@ -36,7 +35,7 @@ class IBMiServiceProvider extends ServiceProvider {
             return new ToolkitServiceManager($app);
         });
 
-        AliasLoader::getInstance()->alias('TS', Facades\ToolkitService::class);
+        class_alias(Facades\ToolkitService::class, 'TS');
     }
 
     /**
