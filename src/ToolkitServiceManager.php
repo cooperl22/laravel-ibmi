@@ -1,18 +1,17 @@
 <?php
+
 namespace Cooperl\IBMi;
 
 use ToolkitService;
 
 class ToolkitServiceManager
 {
-
     /**
      * The application instance.
      *
      * @var \Illuminate\Foundation\Application
      */
     protected $app;
-
     /**
      * The active connection instances.
      *
@@ -23,7 +22,7 @@ class ToolkitServiceManager
     /**
      * Create a new toolkit manager instance.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  \Illuminate\Foundation\Application $app
      * @return void
      */
     public function __construct($app)
@@ -31,10 +30,10 @@ class ToolkitServiceManager
         $this->app = $app;
     }
 
-        /**
+    /**
      * Get a toolkit connection instance.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return \ToolkitApi\ToolkitService
      */
     public function connection($name = null)
@@ -42,8 +41,7 @@ class ToolkitServiceManager
         // If we haven't created this connection, we'll create it based on the config
         // provided in the application. Once we've created the connections we will
         // set the "fetch mode" for PDO which determines the query return types.
-        if ( ! isset($this->connections[$name]))
-        {
+        if (!isset($this->connections[$name])) {
             $this->connections[$name] = $this->makeConnection($name);
         }
 
@@ -53,7 +51,7 @@ class ToolkitServiceManager
     /**
      * Make the toolkit connection instance.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return \ToolkitApi\ToolkitService
      */
     protected function makeConnection($name)
@@ -67,11 +65,11 @@ class ToolkitServiceManager
         $isPersistent = !array_key_exists(\PDO::ATTR_PERSISTENT, $config["options"]) ?: $config["options"][\PDO::ATTR_PERSISTENT];
 
         switch ($config['driver']) {
-            case 'odbc':
+            case 'db2_ibmi_odbc':
                 $transportType = 'odbc';
                 $database = $this->getDsn($config);
                 break;
-            case 'ibm':
+            case 'db2_ibmi_ibm':
                 $transportType = 'ibm_db2';
                 break;
             default:
@@ -87,129 +85,82 @@ class ToolkitServiceManager
     /**
      * Get the configuration for a connection.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return array
      *
      * @throws \InvalidArgumentException
      */
     protected function getConfig($name)
     {
-        $name = $name ?: $this->getDefaultConnection();
+        $name = $name ?: config('database.default');
 
         // To get the database connection configuration, we will just pull each of the
         // connection configurations and get the configurations for the given name.
         // If the configuration doesn't exist, we'll throw an exception and bail.
-        $connections = $this->app['config']['database.connections'];
+        $connections = config('database.connections');
 
-        if (is_null($config = array_get($connections, $name)))
-        {
+        if (is_null($config = array_get($connections, $name))) {
             throw new \InvalidArgumentException("Database [$name] not configured.");
         }
 
         return $config;
     }
 
-    protected function getDsn(array $config) {
-        extract($config);
-
-        $dsn = // General settings
-               "DRIVER=$driverName;"
-             . "SYSTEM=$host;"
-             . "UserID=$username;"
-             . "Password=$password;"
-             //Server settings
-             . "DATABASE=$database;"
-             . "SIGNON=$signon;"
-             . "SSL=$ssl;"
-             . "CommitMode=$commitMode;"
-             . "ConnectionType=$connectionType;"
-             . "DefaultLibraries=$defaultLibraries;"
-             . "Naming=$naming;"
-             . "UNICODESQL=$unicodeSql;"
-             // Format settings
-             . "DateFormat=$dateFormat;"
-             . "DateSeperator=$dateSeperator;"
-             . "Decimal=$decimal;"
-             . "TimeFormat=$timeFormat;"
-             . "TimeSeparator=$timeSeparator;"
-             // Performances settings
-             . "BLOCKFETCH=$blockFetch;"
-             . "BlockSizeKB=$blockSizeKB;"
-             . "AllowDataCompression=$allowDataCompression;"
-             . "CONCURRENCY=$concurrency;"
-             . "LAZYCLOSE=$lazyClose;"
-             . "MaxFieldLength=$maxFieldLength;"
-             . "PREFETCH=$prefetch;"
-             . "QUERYTIMEOUT=$queryTimeout;"
-             // Modules settings
-             . "DefaultPkgLibrary=$defaultPkgLibrary;"
-             . "DefaultPackage=$defaultPackage;"
-             . "ExtendedDynamic=$extendedDynamic;"
-             // Diagnostic settings
-             . "QAQQINILibrary=$QAQQINILibrary;"
-             . "SQDIAGCODE=$sqDiagCode;"
-             // Sort settings
-             . "LANGUAGEID=$languageId;"
-             . "SORTTABLE=$sortTable;"
-             . "SortSequence=$sortSequence;"
-             . "SORTWEIGHT=$sortWeight;"
-             // Conversion settings
-             . "AllowUnsupportedChar=$allowUnsupportedChar;"
-             //. "CCSID=$ccsid;"
-             . "GRAPHIC=$graphic;"
-             . "ForceTranslation=$forceTranslation;"
-             // Other settings
-             . "ALLOWPROCCALLS=$allowProcCalls;"
-             . "DB2SQLSTATES=$DB2SqlStates;"
-             . "DEBUG=$debug;"
-             . "TRUEAUTOCOMMIT=$trueAutoCommit;"
-             . "CATALOGOPTIONS=$catalogOptions;"
-             . "LibraryView=$libraryView;"
-             . "ODBCRemarks=$ODBCRemarks;"
-             . "SEARCHPATTERN=$searchPattern;"
-             . "TranslationDLL=$translationDLL;"
-             . "TranslationOption=$translationOption;"
-             . "MAXTRACESIZE=$maxTraceSize;"
-             . "MultipleTraceFiles=$multipleTraceFiles;"
-             . "TRACE=$trace;"
-             . "TRACEFILENAME=$traceFilename;"
-             . "ExtendedColInfo=$extendedColInfo;"
-             ;
-
-        return $dsn;
-    }
-
-    /**
-     * Get the default connection name.
-     *
-     * @return string
-     */
-    public function getDefaultConnection()
+    protected function getDsn(array $config)
     {
-        return $this->app['config']['database.default'];
+        $dsnParts = [
+            'DRIVER=%s',
+            'System=%s',
+            'Database=%s',
+            'UserID=%s',
+            'Password=%s',
+        ];
+
+        $dsnConfig = [
+            $config['driverName'],
+            $config['host'],
+            $config['database'],
+            $config['username'],
+            $config['password'],
+        ];
+
+        if (array_key_exists('odbc_keywords', $config)) {
+            $odbcKeywords = $config['odbc_keywords'];
+            $parts = array_map(function($part) {
+                return $part . '=%s';
+            }, array_keys($odbcKeywords));
+            $config = array_values($odbcKeywords);
+
+            $dsnParts = array_merge($dsnParts, $parts);
+            $dsnConfig = array_merge($dsnConfig, $config);
+        }
+
+        return sprintf(implode(';', $dsnParts), ...$dsnConfig);
     }
 
     /**
      * Set the default connection name.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return void
      */
     public function setDefaultConnection($name)
     {
-        $this->app['config']['database.default'] = $name;
+        config(['database.default' => $name);
     }
 
     /**
      * Dynamically pass methods to the default connection.
      *
-     * @param  string  $method
-     * @param  array   $parameters
+     * @param  string $method
+     * @param  array  $parameters
      * @return mixed
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array([$this->connection(), $method], $parameters);
+        return call_user_func_array([
+            $this->connection(),
+            $method,
+        ], $parameters);
     }
-
 }
