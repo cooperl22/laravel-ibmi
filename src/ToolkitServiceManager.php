@@ -146,7 +146,7 @@ class ToolkitServiceManager
      */
     public function setDefaultConnection($name)
     {
-        config(['database.default' => $name);
+        config(['database.default' => $name]);
     }
 
     /**
