@@ -126,6 +126,7 @@ class ToolkitServiceManager
 
         if (array_key_exists('odbc_keywords', $config)) {
             $odbcKeywords = $config['odbc_keywords'];
+            unset($odbcKeywords['CCSID']);
             $parts = array_map(function($part) {
                 return $part . '=%s';
             }, array_keys($odbcKeywords));
