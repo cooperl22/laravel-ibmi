@@ -1,11 +1,12 @@
 <?php
+
 namespace Cooperl\IBMi;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 
-class IBMiServiceProvider extends ServiceProvider {
-
+class IBMiServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -31,19 +32,9 @@ class IBMiServiceProvider extends ServiceProvider {
     {
         // The toolkit manager is used to resolve various connections, since multiple
         // connections might be managed.
-        $this->app->singleton('ts', function($app)
-        {
+        $this->app->singleton('ts', function($app) {
             return new ToolkitServiceManager($app);
         });
-
-        if (class_exists(AliasLoader::class)) {
-            AliasLoader::getInstance()
-                       ->alias('TS', Facades\ToolkitService::class);
-        } else {
-            if (!class_exists('TS')) {
-                class_alias(Facades\ToolkitService::class, 'TS');
-            }
-        }
     }
 
     /**
@@ -53,7 +44,6 @@ class IBMiServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return [];
+        return ['ts'];
     }
-
 }

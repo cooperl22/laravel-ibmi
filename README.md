@@ -17,41 +17,18 @@ Plus it also provides Toolkit for IBMi so that you can access IBMi resources wit
 - [Usage](#usage)
 
 ## Installation
-
 Add laravel-ibmi to your composer.json file:
-
-Laravel <= 5.2
 ```
 "require": {
-    "cooperl/laravel-ibmi": "~2.0"
+    "cooperl/laravel-ibmi": "^5.5.0"
 }
 ```
-Laravel >= 5.3
-```
-"require": {
-    "cooperl/laravel-ibmi": "~5.0"
-}
-```
-
 Use [composer](http://getcomposer.org) to install this package.
-
 ```
 $ composer update
 ```
 
-### Registering the Package
-
-Add the laravel-db2 and laravel-ibmi Service Providers to your config in ``app/config/app.php``:
-
-```php
-'providers' => [
-    'Cooperl\Database\DB2\DB2ServiceProvider',
-    'Cooperl\IBMi\IBMiServiceProvider',
-],
-```
-
 ### Configuration
-
 There are two ways to configure laravel-ibmi. You can choose the most convenient way for you. You can put your DB2 credentials into ``app/config/database.php`` (option 1) file or use package config file which you can be generated through command line by artisan (option 2).
 
 #### Option 1: Configure DB2 using ``app/config/database.php`` file 
