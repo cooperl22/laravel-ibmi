@@ -12,7 +12,6 @@ Plus it also provides Toolkit for IBMi so that you can access IBMi resources wit
 ---
 
 - [Installation](#installation)
-- [Registering the Package](#registering-the-package)
 - [Configuration](#configuration)
 - [Usage](#usage)
 
