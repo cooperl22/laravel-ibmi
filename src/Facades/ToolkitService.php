@@ -1,10 +1,10 @@
 <?php
 namespace Cooperl\IBMi\Facades;
- 
+
 use Illuminate\Support\Facades\Facade;
- 
+
 class ToolkitService extends Facade {
- 
+
     /**
     * Get the registered name of the component.
     *
@@ -14,5 +14,5 @@ class ToolkitService extends Facade {
     {
         return 'ts';
     }
- 
+
 }

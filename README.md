@@ -19,7 +19,7 @@ Plus it also provides Toolkit for IBMi so that you can access IBMi resources wit
 Add laravel-ibmi to your composer.json file:
 ```
 "require": {
-    "cooperl/laravel-ibmi": "^5.5.0"
+    "cooperl/laravel-ibmi": "^5.6.0"
 }
 ```
 Use [composer](http://getcomposer.org) to install this package.
@@ -30,7 +30,7 @@ $ composer update
 ### Configuration
 There are two ways to configure laravel-ibmi. You can choose the most convenient way for you. You can put your DB2 credentials into ``app/config/database.php`` (option 1) file or use package config file which you can be generated through command line by artisan (option 2).
 
-#### Option 1: Configure DB2 using ``app/config/database.php`` file 
+#### Option 1: Configure DB2 using ``app/config/database.php`` file
 
 Simply add this code at the end of your ``app/config/database.php`` file:
 
@@ -165,15 +165,15 @@ This package ships with a facade called ``TS`` for ToolkitService which is the n
 here is an example of how to use this facade:
 
 ```php
-    $param[] = TS::AddParameterChar('both', 10, 'InventoryCode', 'code', $code); 
-    $param[] = TS::AddParameterChar('both', 10, 'Description', 'desc', $desc); 
-    $result = TS::PgmCall("COMMONPGM", "ZENDSVR", $param, null, null); 
+    $param[] = TS::AddParameterChar('both', 10, 'InventoryCode', 'code', $code);
+    $param[] = TS::AddParameterChar('both', 10, 'Description', 'desc', $desc);
+    $result = TS::PgmCall("COMMONPGM", "ZENDSVR", $param, null, null);
     if($result)
-    { 
-        var_dump($result['io_param']); 
-    } 
+    {
+        var_dump($result['io_param']);
+    }
     else
-    { 
+    {
         echo "Execution failed.";
     }
 ```
@@ -181,15 +181,15 @@ here is an example of how to use this facade:
 If you want to choose another connection than the default one just do this:
 
 ```php
-    $param[] = TS::connection('other_connection')->AddParameterChar('both', 10, 'InventoryCode', 'code', $code); 
-    $param[] = TS::connection('other_connection')->AddParameterChar('both', 10, 'Description', 'desc', $desc); 
-    $result = TS::connection('other_connection')->PgmCall("COMMONPGM", "ZENDSVR", $param, null, null); 
+    $param[] = TS::connection('other_connection')->AddParameterChar('both', 10, 'InventoryCode', 'code', $code);
+    $param[] = TS::connection('other_connection')->AddParameterChar('both', 10, 'Description', 'desc', $desc);
+    $result = TS::connection('other_connection')->PgmCall("COMMONPGM", "ZENDSVR", $param, null, null);
     if($result)
-    { 
-        var_dump($result['io_param']); 
-    } 
+    {
+        var_dump($result['io_param']);
+    }
     else
-    { 
+    {
         echo "Execution failed.";
     }
 ```
