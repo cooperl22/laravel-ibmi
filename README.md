@@ -19,7 +19,7 @@ Plus it also provides Toolkit for IBMi so that you can access IBMi resources wit
 Add laravel-ibmi to your composer.json file:
 ```
 "require": {
-    "cooperl/laravel-ibmi": "^5.6.0"
+    "cooperl/laravel-ibmi": "^5.7.0"
 }
 ```
 Use [composer](http://getcomposer.org) to install this package.
