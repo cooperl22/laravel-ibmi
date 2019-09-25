@@ -3,6 +3,7 @@
 namespace Cooperl\IBMi;
 
 use ToolkitService;
+use Illuminate\Support\Arr;
 
 class ToolkitServiceManager
 {
