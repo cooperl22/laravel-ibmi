@@ -1,6 +1,6 @@
 # laravel-ibmi for Laravel 6.0
 
-Please see for full instructions the original project https://github.com/cooperl22/laravel-db2. I made this project in order to support Laravel 6.0 and will most likely abandon this project when upstream is compatible with Laravel 6.0.
+Please see for full instructions the original project https://github.com/cooperl22/laravel-ibmi. I made this project in order to support Laravel 6.0 and will most likely abandon this project when upstream is compatible with Laravel 6.0.
 
 # What is changed
 * Depencies in composer.json, which would prevent the installation
