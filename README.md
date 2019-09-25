@@ -19,10 +19,10 @@ Plus it also provides Toolkit for IBMi so that you can access IBMi resources wit
 Add laravel-ibmi to your composer.json file:
 ```
 "require": {
-    "cooperl/laravel-ibmi": "^5.8.0"
+    "cooperl/laravel-ibmi": "^6.0"
 }
 ```
-Use [composer](http://getcomposer.org) to install this package.
+Use [composer](https://getcomposer.org) to install this package.
 ```
 $ composer update
 ```
@@ -156,7 +156,7 @@ the same way as above
 
 #### Database usage
 
-consult the [Laravel framework documentation](http://laravel.com/docs).
+consult the [Laravel framework documentation](https://laravel.com/docs).
 
 #### Toolkit for IBMi usage :
 
@@ -194,4 +194,4 @@ If you want to choose another connection than the default one just do this:
     }
 ```
 
-for more details please consult [PHP XMLSERVICE Toolkit documentation](http://files.zend.com/help/Zend-Server-IBMi/zend-server.htm#php_toolkit_xml_service_functions.htm).
+for more details please consult [PHP XMLSERVICE Toolkit documentation](https://docs.roguewave.com/en/zend/current/content/php_toolkit_xml_service_functions.htm).
