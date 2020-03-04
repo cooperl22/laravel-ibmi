@@ -14,8 +14,8 @@
     "license": "MIT",
     "authors": [
         {
-        "name": "Maxime Rault",
-        "role": "Developer"
+            "name": "Maxime Rault",
+            "role": "Developer"
         }
     ],
     "require": {
@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-        "Cooperl\\IBMi\\": "src/"
+            "Cooperl\\IBMi\\": "src/"
         }
     },
     "extra": {
