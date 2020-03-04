@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": "^7.2.5",
-        "zendtech/IbmiToolkit": "^1.8.0",
+        "zendtech/IbmiToolkit": "^1.7.0",
         "cooperl/laravel-db2": "^7.0"
     },
     "require-dev": {
