@@ -19,7 +19,7 @@ Plus it also provides Toolkit for IBMi so that you can access IBMi resources wit
 Add laravel-ibmi to your composer.json file:
 ```
 "require": {
-    "cooperl/laravel-ibmi": "^6.0"
+    "cooperl/laravel-ibmi": "^7.0"
 }
 ```
 Use [composer](https://getcomposer.org) to install this package.
@@ -109,13 +109,13 @@ Simply add this code at the end of your ``app/config/database.php`` file:
         ],
         'options' => [
             PDO::ATTR_CASE => PDO::CASE_LOWER,
-            PDO::ATTR_PERSISTENT => false,
-            PDO::I5_ATTR_DBC_SYS_NAMING => false,
-            PDO::I5_ATTR_COMMIT => PDO::I5_TXN_NO_COMMIT,
-            PDO::I5_ATTR_JOB_SORT => false,
-            PDO::I5_ATTR_DBC_LIBL => '',
-            PDO::I5_ATTR_DBC_CURLIB => '',
-        ],
+            PDO::ATTR_PERSISTENT => false
+        ]
+        + (defined('PDO::I5_ATTR_DBC_SYS_NAMING') ? [PDO::I5_ATTI5_ATTR_DBC_SYS_NAMINGR_COMMIT => false] : [])
+        + (defined('PDO::I5_ATTR_COMMIT') ? [PDO::I5_ATTR_COMMIT => PDO::I5_TXN_NO_COMMIT] : [])
+        + (defined('PDO::I5_ATTR_JOB_SORT') ? [PDO::I5_ATTR_JOB_SORT => false] : [])
+        + (defined('PDO::I5_ATTR_DBC_LIBL') ? [PDO::I5_ATTR_DBC_LIBL => ''] : [])
+        + (defined('PDO::I5_ATTR_DBC_CURLIB') ? [PDO::I5_ATTR_DBC_CURLIB => ''] : []),
         'toolkit' => [
             'sbmjobParams' => 'ZENDPHP7/ZSVR_JOBD/XTOOLKIT',
             'XMLServiceLib' => 'ZENDPHP7',
