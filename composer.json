@@ -19,9 +19,9 @@
         }
     ],
     "require": {
-        "php": "^7.2.5|^8.0",
-        "zendtech/ibmitoolkit": "^1.7.0",
-        "cooperl/laravel-db2": "^7.1"
+        "php": "^8.0",
+        "zendtech/ibmitoolkit": "^1.9",
+        "cooperl/laravel-db2": "^9.0"
     },
     "require-dev": {
     },
