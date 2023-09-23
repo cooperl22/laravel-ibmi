@@ -108,6 +108,7 @@ class ToolkitService extends Facade {
      * @method static string getPhpOperatingSystem()
      * @method static bool isPhpRunningOnIbmI()
      * @method static bool getPhpCcsid()
+     * @return string
      */
     protected static function getFacadeAccessor()
     {
